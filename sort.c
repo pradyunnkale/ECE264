@@ -15,23 +15,23 @@ void ssort(int * arr, int size) {
 
 	for (i = 0; i < size - 1; i++)
 	{
-		m = *(arr + i);
+		m = arr[i];
 		m_index = i;
 		for (j = i + 1; j < size; j++)
 		{
 #ifdef ASCENDING
-			if (*(arr + j) < m)
+			if (arr[j] < m)
 #else 
-			if (*(arr + j) > m)
+			if (arr[j] > m)
 #endif
 			{
-				m = *(arr + j);
+				m = arr[j];
 				m_index = j;
 			}
 		}
 
-		temp = *(arr + i);
-		*(arr + i) = *(arr + m_index);
-		*(arr + m_index) = temp;
+		temp = arr[i];
+		arr[i] = arr[m_index];
+		arr[m_index] = temp;	
 	}
 }
