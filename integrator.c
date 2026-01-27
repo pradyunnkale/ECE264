@@ -19,6 +19,7 @@ double integrate1(Range rng)
 		double x = rng.lowerlimit + i * interval_size;	
 		double y = func(x);
 		sum += (prev_y + y) * interval_size / 2;
+		prev_y = y;
 	}
   return sum;
 }
