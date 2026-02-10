@@ -103,7 +103,7 @@ Student * merge(Student * base1, int nel1, Student * base2, int nel2, int (*comp
 	//3. Go through base1 and base2, and merge them into the returned array
 	while (i < nel1 && j < nel2)
 	{
-		if (&compar(base1[i], &base2[j]) <= 0)
+		if (compar(&base1[i], &base2[j]) <= 0)
 		{
 			merged_array[k] = base1[i];
 			i++;
