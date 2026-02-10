@@ -6,7 +6,7 @@ CFLAGS = -std=c99 -g -Wall -Wshadow --pedantic -Wvla -Werror
 TESTS = -DTEST_READ -DTEST_WRITE -DTEST_QSORT -DTEST_SORTID -DTEST_SORTNAME -DTEST_SORTED
 GCC = gcc $(CFLAGS) $(TESTS)
 EXEC = hw6
-OBJS =  hw6.o student.o
+OBJS =  hw6.o student.o msort.o
 VALGRIND = valgrind --tool=memcheck --leak-check=yes --verbose
 
 $(EXEC): $(OBJS) hw6.h

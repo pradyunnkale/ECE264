@@ -52,12 +52,12 @@ void msort(Student * base, int nel, int (*compar)(const void *, const void *)) {
 	//2b. Sort the second half of the array. Pass in the address of the 
 	//beginning of the second half of the array (remember to use the right # of 
 	//elements)
-	msort(base + midpoint, midpoint, compar);
+	msort(base + midpoint, nel - midpoint, compar);
 
 	//FILL IN
 	
 	//3a. Merge the two arrays (use merge)
-	Student * merged_array = merge(base, midpoint, base + midpoint, midpoint, compar);
+	Student * merged_array = merge(base, midpoint, base + midpoint, nel - midpoint, compar);
 	//FILL IN
 	
 	//3b. Copy the merged array over top of the original array (use copy)
@@ -124,7 +124,7 @@ Student * merge(Student * base1, int nel1, Student * base2, int nel2, int (*comp
 	}
 	while (j < nel2)
 	{
-		merged_array[k] = base1[j];
+		merged_array[k] = base2[j];
 		j++;
 		k++;
 	}
