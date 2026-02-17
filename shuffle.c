@@ -85,6 +85,8 @@ void divide(CardDeck origDeck, CardDeck * leftDeck, CardDeck * rightDeck)
 // function, please keep it inside #ifdef TEST_INTERLEAVE and #endif
 // so that the function can be removed for grading other parts of the
 // program.
+void helper(CardDeck leftDeck, CardDeck rightDeck, int pos, CardDeck outputDeck);
+
 void interleave(CardDeck leftDeck, CardDeck rightDeck)
 {
   int totalSize = leftDeck.size + rightDeck.size;
