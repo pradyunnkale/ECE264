@@ -34,11 +34,11 @@ void divide(CardDeck origDeck, CardDeck * leftDeck, CardDeck * rightDeck)
   int i;
   for (i = 1; i < origDeck.size; i++)
   {
-    leftDeck[i-1].cards = origDeck.cards; 
     leftDeck[i-1].size = i;
+    memcpy(leftDeck[i-1].cards, origDeck.cards, leftDeck[i-1].size);
 
-    rightDeck[i-1].cards = origDeck.cards + i;
     rightDeck[i-1].size = origDeck.size - i;
+    memcpy(rightDeck[i-1].cards, origDeck.cards + i, rightDeck[i-1].size);
   }
 }
 #endif
@@ -90,12 +90,9 @@ void interleave(CardDeck leftDeck, CardDeck rightDeck)
   int totalSize = leftDeck.size + rightDeck.size;
   int pos = 0;
   CardDeck outputDeck = {
-    .cards = malloc(sizeof(char) * totalSize),
     .size = totalSize
   };
-  if (outputDeck.cards == NULL) return;
   helper(leftDeck, rightDeck, pos, outputDeck);
-  free(outputDeck.cards);
 }
 
 void helper(CardDeck leftDeck, CardDeck rightDeck, int pos, CardDeck outputDeck)
@@ -103,7 +100,7 @@ void helper(CardDeck leftDeck, CardDeck rightDeck, int pos, CardDeck outputDeck)
   if (leftDeck.size == 0)
   {
     // Append the outputDeck with whatever is in the rightDeck
-    memcpy(outputDeck.cards + pos, rightDeck.cards. rightDeck.size);
+    memcpy(outputDeck.cards + pos, rightDeck.cards, rightDeck.size);
     printDeck(outputDeck);
     return;
   }
@@ -111,23 +108,23 @@ void helper(CardDeck leftDeck, CardDeck rightDeck, int pos, CardDeck outputDeck)
   if (rightDeck.size == 0)
   {
     // Append the outputDeck with whatever is in the rightDeck
-    memcpy(outputDeck.cards + pos, leftDeck.cards. leftDeck.size);
+    memcpy(outputDeck.cards + pos, leftDeck.cards, leftDeck.size);
     printDeck(outputDeck);
     return;
   }
 
   outputDeck.cards[pos] = leftDeck.cards[0];
   CardDeck newLeftDeck = {
-    .cards = leftDeck.cards + 1,
     .size = leftDeck.size - 1
   };
+  memcpy(newLeftDeck.cards, leftDeck.cards + 1, newLeftDeck.size);
   helper(newLeftDeck, rightDeck, pos + 1, outputDeck);
 
   outputDeck.cards[pos] = rightDeck.cards[0];
   CardDeck newRightDeck = {
-    .cards = rightDeck.cards + 1,
     .size = rightDeck.size - 1
   };
+  memcpy(newRightDeck.cards, rightDeck.cards + 1, newRightDeck.size);
   helper(leftDeck, newRightDeck, pos + 1, outputDeck);
 }
 
@@ -150,9 +147,9 @@ void helper(CardDeck leftDeck, CardDeck rightDeck, int pos, CardDeck outputDeck)
 void shuffle(CardDeck origDeck)
 {
   int numPairs = origDeck.size - 1;
-  CardDeck * leftDeck = malloc(sizeof(CardDeck) * numPairs);
+  CardDeck * leftDeck = (CardDeck *) malloc(sizeof(CardDeck) * numPairs);
   if (leftDeck == NULL) return;
-  CardDeck * rightDeck = malloc(sizeof(CardDeck) * numPairs);
+  CardDeck * rightDeck = (CardDeck *) malloc(sizeof(CardDeck) * numPairs);
   if (rightDeck == NULL) 
   {
     free(leftDeck);

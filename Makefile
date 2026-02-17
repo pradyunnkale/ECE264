@@ -27,4 +27,4 @@ memory: $(EXEC)
 clean: 
 	/bin/rm -f *.o
 	/bin/rm -f $(EXEC)
-	/bin/rm -f log? output?
+	/bin/rm -f log* output*

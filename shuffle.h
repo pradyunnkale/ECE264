@@ -16,6 +16,7 @@ typedef struct
 
 void divide(CardDeck origDeck, CardDeck* leftDeck, CardDeck* rightDeck);
 void interleave(CardDeck leftDeck, CardDeck rightDeck);
+void helper(CardDeck leftDeck, CardDeck rightDeck, int pos, CardDeck outputDeck);
 void shuffle (CardDeck origDeck);
 
 #endif
