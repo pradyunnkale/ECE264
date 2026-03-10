@@ -36,7 +36,7 @@ ListNode * createListHelper(int current, int valn)
 {
   if (current == valn) return NULL;
   ListNode * node = malloc(sizeof(ListNode));
-  node->val = current;
+  node->value = current;
   node->next = createListHelper(current + 1, valn);
   return node;
 }
@@ -45,7 +45,7 @@ ListNode * createList(int valn)
 {
   if (valn == 0) return NULL;
   ListNode * head = malloc(sizeof(ListNode));
-  head->val = 0;
+  head->value = 0;
   head->next = createListHelper(1, valn);
   return head;
 }
@@ -53,6 +53,9 @@ ListNode * createList(int valn)
 #endif
 
 #ifdef TEST_ELIMINATE
+
+void eliminateHelper(ListNode * head, ListNode * startNode, int valk);
+
 // eliminate the nodes in the linked list
 // starting from the head, move one node at a time and count to valk.
 // eliminate that node, keep counting
@@ -64,17 +67,69 @@ ListNode * createList(int valn)
 void eliminate(ListNode * head, int valk)
 {
   if (head == NULL) return;
-  if (head->val == valk) return;
+  if (head->next == NULL)
+  {
+    printf("%d\n", head->value);
+    free(head);
+    return;
+  }
+
+  ListNode * p = head;
+  int i;
+  for (i = 0; i < valk - 1; i++)
+  {
+    if (p->next == NULL) p = head;
+    else p = p->next;
+  }
 
 #ifdef DEBUG
   // this #ifdef ... #endif should be inside the condition *BEFORE* a
   // node' value is printed and it is deleted
-  ListNode * todelete = head;
+  ListNode * todelete = p;
   printListNode (todelete); 
 #endif
 
-  eliminate(head->next, valk);
-  free(head);
+  ListNode * nextNode = NULL; 
+  if (p->next == NULL) nextNode = head;
+  else nextNode = p->next;
+
+  printf("%d\n", p->value);
+  ListNode * newHead = deleteNode(head, p);
+  eliminateHelper(newHead, nextNode, valk);
+}
+
+void eliminateHelper(ListNode * head, ListNode * startNode, int valk)
+{
+  if (head == NULL) return;
+  if (head->next == NULL)
+  {
+    printf("%d\n", head->value);
+    free(head);
+    return;
+  }
+
+  ListNode * p = startNode;
+  int i;
+  for (i = 0; i < valk - 1; i++)
+  {
+    if (p->next == NULL) p = head;
+    else p = p->next;
+  }
+
+#ifdef DEBUG
+  // this #ifdef ... #endif should be inside the condition *BEFORE* a
+  // node' value is printed and it is deleted
+  ListNode * todelete = p;
+  printListNode (todelete); 
+#endif
+
+  ListNode * nextNode = NULL; 
+  if (p->next == NULL) nextNode = head;
+  else nextNode = p->next;
+
+  printf("%d\n", p->value);
+  ListNode * newHead = deleteNode(head, p);
+  eliminateHelper(newHead, nextNode, valk);
 }
 #endif
 

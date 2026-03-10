@@ -1,11 +1,11 @@
 CFLAGS = -std=c99 -g -Wall -Wshadow --pedantic -Wvla -Werror
 GCC = gcc $(CFLAGS)
-EXEC = eliminate
+EXEC = hw10 
 
-TESTFLAGS = -DTEST_ELIMINATE
+TESTFLAGS = -DTEST_ELIMINATE -DDEBUG -DTEST_CREATELIST -DTEST_DELETENODE
 
-all: main.c eliminate.c
-	$(GCC) $(TESTFLAGS) -o $(EXEC) main.c eliminate.c
+all: main.c hw10.c
+	$(GCC) $(TESTFLAGS) -o $(EXEC) main.c hw10.c
 	
 
 testall: test1 test2 test3 
@@ -31,3 +31,4 @@ valgrind: all
 clean:
 	rm -f $(EXEC)
 	rm -f *.o
+	rm -f output*
