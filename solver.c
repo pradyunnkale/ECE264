@@ -30,21 +30,43 @@ char * solveMaze(Maze * m) {
 }
 
 bool depthFirstSolve(Maze * m, MazePos curpos, char * path, int step) {
-	if (curpos.xpos == m->end.xpos && curpos.ypos == m->end.ypos)
+	if (!squareOK(curpos, m))
+		return false;
+
+	if (atEnd(curpos, m))
 	{
-		path[n] = '\0';
-		// Might need to free something
-		return;
+		path[step] = '\0';
+		return true;
 	}
 
-	m->maze; // 2D Array for the maze 
-	m->width; // Columns in maze
-	m->height; // Rows in maze
-	m->start; // Location of 's'
-	m->end; // Location of 'e'
-	
-	depthFirstSolve(m, curpos, path, step + 1);
-	
+	m->maze[curpos.ypos][curpos.xpos].visited = true;
+
+	MazePos next;
+
+	next = curpos; 
+	next.ypos -= 1;
+	path[step] = NORTH;
+	if (depthFirstSolve(m, next, path, step + 1))
+		return true;
+
+	next = curpos; 
+	next.ypos += 1;
+	path[step] = SOUTH;
+	if (depthFirstSolve(m, next, path, step + 1))
+		return true;
+
+	next = curpos; 
+	next.xpos += 1;
+	path[step] = EAST;
+	if (depthFirstSolve(m, next, path, step + 1))
+		return true;
+
+	next = curpos; 
+	next.xpos -= 1;
+	path[step] = WEST;
+	if (depthFirstSolve(m, next, path, step + 1))
+		return true;
+
 	return false;
 }
 
