@@ -74,6 +74,7 @@ int countTurns(char* path)
 		{
 			turns++;	
 		}
+		i++;
 	}
 	return turns;
 }
