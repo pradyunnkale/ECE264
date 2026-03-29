@@ -61,5 +61,6 @@ void depthFirstSolve(Maze* m, MazePos curpos, char* path, int step,
 	path[step] = WEST;
 	depthFirstSolve(m, next, path, step + 1, successPaths);
 
+	m->maze[curpos.ypos][curpos.xpos].visited = false;
 	return;
 }

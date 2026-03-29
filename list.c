@@ -27,7 +27,7 @@ void freePaths(PathLL* p) {
 	while (curr != NULL)
 	{
 		PathNode * next = curr->next;		
-		free(curr);
+		freeNode(curr);
 		curr = next;
 	}
 	free(p);
@@ -47,6 +47,7 @@ PathNode* buildNode(char* path) {
 	{
 		return NULL;		
 	}
+	node->path = malloc(strlen(path) + 1);
 	strcpy(node->path, path);
 	node->next = NULL;
 	return node;
@@ -56,8 +57,44 @@ void freeNode(PathNode* p) {
 	// Deallocate a pathNode
 	// TODO
 	
-	// Not sure if the inside of PathNode is memory allocated
+	free(p->path);
 	free(p);	
+}
+
+int countTurns(char* path);
+int comparePaths(char* a, char* b);
+
+int countTurns(char* path)
+{
+	int turns = 0;
+	int i = 1;
+	while (path[i] != '\0')
+	{
+		if (path[i] != path[i-1])
+		{
+			turns++;	
+		}
+	}
+	return turns;
+}
+
+int comparePaths(char* a, char* b)
+{
+	int lenA = strlen(a);
+	int lenB = strlen(b);	
+	if (lenA != lenB)
+	{
+		return lenA - lenB;	
+	}
+
+	int turnsA = countTurns(a);
+	int turnsB = countTurns(b);
+	if (turnsA != turnsB)
+	{
+		return turnsA - turnsB;	
+	}
+
+	return strcmp(a, b);
 }
 
 bool addNode(PathLL* paths, char* path) {
@@ -68,13 +105,23 @@ bool addNode(PathLL* paths, char* path) {
 	{
 		return false;	
 	}
-	// Append path
+	
+	// If there are no paths in PathLL* paths
+	if (paths->head == NULL)
+	{
+		paths->head = buildNode(path);
+		return true;
+	}
+
 	PathNode * curr = paths->head;
-	while(curr->next != NULL)
+	while(curr->next != NULL && comparePaths(path, curr->next->path) > 0)
 	{
 		curr = curr->next;	
 	}
+
+	PathNode * next = curr->next;
 	curr->next = buildNode(path);
+	curr->next->next = next;
 	return true;
 }
 
@@ -106,7 +153,7 @@ bool removeNode(PathLL* paths, char* path) {
 		{
 			prev->next = next;	
 		}
-		free(curr);
+		freeNode(curr);
 		return true;
 	}
 	return false;
