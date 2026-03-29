@@ -25,8 +25,41 @@ PathLL* solveMaze(Maze* m) {
 
 void depthFirstSolve(Maze* m, MazePos curpos, char* path, int step,
                      PathLL* successPaths) {
+	// TODO (Your best bet is to modify a working implementation from HW9)
+	if (!squareOK(curpos, m))
+	{
+		return;
+	}
 
-    // TODO (Your best bet is to modify a working implementation from HW9)
+	if (atEnd(curpos, m))
+	{
+		path[step] = '\0';
+		addNode(successPaths, path);
+		return;
+	}
 
-    return;
+	m->maze[curpos.ypos][curpos.xpos].visited = true;
+
+	MazePos next;
+	next = curpos;
+	next.ypos -= 1;
+	path[step] = NORTH;
+	depthFirstSolve(m, next, path, step + 1, successPaths);
+
+	next = curpos;
+	next.ypos += 1;
+	path[step] = SOUTH;
+	depthFirstSolve(m, next, path, step + 1, successPaths);
+
+	next = curpos;
+	next.xpos += 1;
+	path[step] = EAST;
+	depthFirstSolve(m, next, path, step + 1, successPaths);
+
+	next = curpos;
+	next.xpos -= 1;
+	path[step] = WEST;
+	depthFirstSolve(m, next, path, step + 1, successPaths);
+
+	return;
 }

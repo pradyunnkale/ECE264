@@ -2,6 +2,9 @@
 // *** Do NOT modify this file
 // ***
 
+#include <stdio.h>
+#include <stdbool.h>
+
 #ifndef _PATHS_H_
 #define _PATHS_H_
 

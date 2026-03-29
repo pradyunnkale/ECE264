@@ -21,105 +21,115 @@ PathLL* buildPaths() {
 // Remember to check for memory leak.
 
 void freePaths(PathLL* p) {
-    // Remove all nodes from a linked list, deallocate the PathLL structure.
-    // TODO
-    if (p == NULL || p->head == NULL)
-    {
-        free(p);
-        return;
-    }
-    PathNode * next= p->head->next;
-    free(p->head);
-    p->head = next;
-    freePaths(p);
+	// Remove all nodes from a linked list, deallocate the PathLL structure.
+	// TODO
+	PathNode * curr = p->head;
+	while (curr != NULL)
+	{
+		PathNode * next = curr->next;		
+		free(curr);
+		curr = next;
+	}
+	free(p);
+	return;
 }
 
 PathNode* buildNode(char* path) {
-    // Allocate a new PathNode with path as its data, return the address.
+	// Allocate a new PathNode with path as its data, return the address.
 
-    // WARNING: don't forget to use strcpy to copy path into the new node.
-    // Don't just set them equal, otherwise if the input path changes the node
-    // will have the wrong path.
+	// WARNING: don't forget to use strcpy to copy path into the new node.
+	// Don't just set them equal, otherwise if the input path changes the node
+	// will have the wrong path.
 
-    // TODO
-		PathNode* node = malloc(sizeof(PathNode));
-		if (node == NULL)
-		{
-			return NULL;		
-		}
-		strcpy(node->path, path);
-		node->next = NULL;
-		return node;
+	// TODO
+	PathNode* node = malloc(sizeof(PathNode));
+	if (node == NULL)
+	{
+		return NULL;		
+	}
+	strcpy(node->path, path);
+	node->next = NULL;
+	return node;
 }
 
 void freeNode(PathNode* p) {
-    // Deallocate a pathNode
-    // TODO
-		free(p);	
+	// Deallocate a pathNode
+	// TODO
+	
+	// Not sure if the inside of PathNode is memory allocated
+	free(p);	
 }
 
 bool addNode(PathLL* paths, char* path) {
-    // Add a path to the list of paths
-    // TODO
-		if (paths == NULL)
-		{
-			return false;
-		}
-		PathNode* node = buildNode(path);
-		if (node == NULL)
-		{
-			return false;	
-		}
-		node->next = paths->head;
-		paths->head = node;
-    return true;
+	// Add a path to the list of paths
+	// TODO
+	// Check if the address is valid
+	if (paths == NULL)
+	{
+		return false;	
+	}
+	// Append path
+	PathNode * curr = paths->head;
+	while(curr->next != NULL)
+	{
+		curr = curr->next;	
+	}
+	curr->next = buildNode(path);
+	return true;
 }
 
 bool removeNode(PathLL* paths, char* path) {
-    // Remove a node from the list with the specified path
-    // TODO
-		if (paths == NULL)
-		{
-			return false;	
-		}
+	// Remove a node from the list with the specified path
+	// TODO
+	if (paths == NULL)
+	{
+		return false;	
+	}
 
-		PathNode* curr = paths->head;
-		PathNode* next = paths->head->next;
-		PathNode* prev = NULL;
-		while (curr != NULL && strcmp(curr->path, path) != 0)
-		{
-			prev = curr;
-			curr = curr->next;
-			next = curr->next;
-		}
+	PathNode * curr = paths->head;
+	PathNode * prev = NULL;
+	PathNode * next = curr->next;
+	while (curr->next != NULL && strcmp(curr->path, path) != 0)
+	{
+		prev = curr;
+		curr = next;				
+		next = curr->next;
+	}
 
-		if (curr == NULL)
+	if (!strcmp(curr->path, path))
+	{
+		if (prev == NULL)
 		{
-			return false;
-		}
-
-		if (curr == paths->head)
-		{
-			paths->head = next;			
-			free(curr);
-		}
-		else if (curr->next = NULL)
-		{
-			prev->next = NULL;	
-			free(curr);
+			paths->head = next;		
 		}
 		else
 		{
-			prev->next = next;		
-			free(curr);
+			prev->next = next;	
 		}
+		free(curr);
 		return true;
+	}
+	return false;
 }
 
 bool containsNode(PathLL* paths, char* path) {
-    // Return true if path exists in the list
-    // TODO
-		
+	// Return true if path exists in the list
+	// TODO
+	if (paths == NULL)
+	{
+		return false;	
+	}
+
+	PathNode * curr = paths->head;
+	while (curr != NULL)
+	{
+		if (!strcmp(path, curr->path))
+		{
+			return true;	
+		}
+		curr = curr->next;
+	}
+	return false;
 }
 
 void printPaths(PathLL* paths, FILE* fptr) {
