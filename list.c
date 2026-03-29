@@ -115,6 +115,15 @@ bool addNode(PathLL* paths, char* path) {
 	}
 
 	PathNode * curr = paths->head;
+
+	if (comparePaths(path, curr->path) <= 0)
+	{
+		PathNode * new = buildNode(path);	
+		new->next = paths->head;
+		paths->head = new;
+		return true;
+	}
+
 	while(curr->next != NULL && comparePaths(path, curr->next->path) > 0)
 	{
 		curr = curr->next;	
