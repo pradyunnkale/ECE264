@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "tree.h"
 
 // DO NOT MODIFY FROM HERE --->>>
@@ -58,6 +59,34 @@ void preOrderToFile(Tree * tr, char * filename)
 // ***
 
 #ifdef TEST_BUILDTREE
+TreeNode * buildNode(int * inArray, int * postArray, int size);
+TreeNode * buildNode(int * inArray, int * postArray, int size)
+{
+	if (size <= 0)
+	{
+		return NULL;
+	}
+
+	TreeNode * node = malloc(sizeof(TreeNode));
+	if (node == NULL)
+	{
+		return NULL;
+	}
+
+	node->value = postArray[size - 1];
+
+	int rootidx = 0;
+	while (inArray[rootidx] != node->value)
+	{
+		rootidx++;
+	}
+
+	node->left = buildNode(inArray, postArray, rootidx);
+	node->right = buildNode(inArray + rootidx + 1, postArray + rootidx, size - rootidx - 1);
+
+	return node;
+}
+
 // Consider the algorithm posted on
 // https://www.geeksforgeeks.org/construct-a-binary-tree-from-postorder-and-inorder/
 // Feel free to add helper functions
@@ -66,5 +95,15 @@ void preOrderToFile(Tree * tr, char * filename)
 // size: number of integers in inArray or postArray
 Tree * buildTree(int * inArray, int * postArray, int size)
 {
+	Tree * tree = malloc(sizeof(Tree));
+	if (tree == NULL)
+	{
+		return NULL;
+	}
+
+	tree->root = buildNode(inArray, postArray, size);
+	return tree;
 }
 #endif
+
+
