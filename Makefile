@@ -39,6 +39,9 @@ test8: all
 	./$(EXEC) inputs/input_8.txt > output8.txt
 	diff output8.txt expected/expected_8.txt
 
+valgrind: all
+	valgrind -s --errors-for-leak-kinds=all --leak-check=full --show-leak-kinds=all --error-exitcode=2 ./$(EXEC) 5000 17 > /dev/null
+
 clean:
 	rm -f $(EXEC)
 	rm -f *.o
