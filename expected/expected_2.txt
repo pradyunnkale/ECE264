@@ -1,0 +1,2 @@
+                        Snoopy:         30         45         30         70 = ESTP
+                    Bugs Bunny:         20         45         15         55 = ESTP

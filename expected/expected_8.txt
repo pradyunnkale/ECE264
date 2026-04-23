@@ -1,0 +1,4 @@
+                       sparkie:         43         47         53         25 = ESFJ
+                         Taiga:         80         32         45         50 = ISTX
+                       car2012:         44         25         32         35 = ESTJ
+                      Deadpool:         67         11         24         50 = ISTX
