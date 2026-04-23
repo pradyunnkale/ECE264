@@ -14,11 +14,11 @@ int getDimensionIndex(int questionIndex) {
   {
     return 0;    
   } 
-  else if (questionIndex % 7 == 1 || questionIndex == 2)
+  else if (questionIndex % 7 == 1 || questionIndex % 7 == 2)
   {
     return 1;
   }
-  else if (questionIndex % 7 == 3 || questionIndex == 4)
+  else if (questionIndex % 7 == 3 || questionIndex % 7 == 4)
   {
     return 2;
   }
@@ -77,8 +77,8 @@ PersonalityResult analyzeAnswers(const char * answers) {
   PersonalityResult result;
 
   // TODO: Implement this function
-  int aCount[NUM_DIMENSIONS];
-  int bCount[NUM_DIMENSIONS];
+  int aCount[NUM_DIMENSIONS] = {0};
+  int bCount[NUM_DIMENSIONS] = {0};
   countAnswers(answers, aCount, bCount);
   for (int i = 0; i < NUM_DIMENSIONS; i++) {
     result.percentages[i] = computePercentageB(aCount[i], bCount[i]);
