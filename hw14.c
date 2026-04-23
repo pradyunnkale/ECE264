@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "huffman.h"
 
 /* count the occurrences in a file */
@@ -48,8 +49,55 @@ int main(int argc, char **argv)
    }
 
    // Your code should go here
-   
-   
+   ListNode *list = NULL;
+   for (int c = 0; c < ASCII_SIZE; c++)
+   {
+      if (asciiCount[c] > 0)
+      {
+         TreeNode *leaf = buildTreeNode(c, NULL, NULL);
+         if (leaf == NULL)
+         {
+            freeList(list);
+            return EXIT_FAILURE;
+         }
+         leaf->count = asciiCount[c];
+         if (addListNode(&list, leaf, treeNodeCompare) == NULL)
+         {
+            free(leaf);
+            return EXIT_FAILURE;
+         }
+      }
+   }
 
+   free(asciiCount);
+
+   FILE *fpSorted = fopen(argv[2], "w");
+   if (fpSorted == NULL)
+   {
+      freeList(list);
+      return EXIT_FAILURE;
+   }
+   printList(list, fpSorted);
+   fclose(fpSorted);
+   
+   TreeNode *root = buildHuffmanTree(list);
+   FILE *fpHuff = fopen(argv[3], "w");
+   if (fpHuff == NULL)
+   {
+      freeHuffmanTree(root);
+      return EXIT_FAILURE;
+   }
+   huffmanPrint(root, fpHuff);
+   fclose(fpHuff); 
+
+   FILE *fpHeader = fopen(argv[4], "wb");
+   if (fpHeader == NULL)
+   {
+      freeHuffmanTree(root);
+      return EXIT_FAILURE;
+   }
+   fclose(fpHeader);
+
+   freeHuffmanTree(root);
    return EXIT_SUCCESS;
 }

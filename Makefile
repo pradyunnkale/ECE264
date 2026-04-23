@@ -8,7 +8,7 @@ EXEC = hw14
 OBJS = hw14.o
 VALGRIND = valgrind --tool=memcheck --leak-check=yes --verbose
 
-$(EXEC): $(OBJS) huffman.h
+$(EXEC): $(OBJS) huffman.h huffman.c
 	$(GCC) $(OBJS) -o $(EXEC)
 
 test: $(EXEC)

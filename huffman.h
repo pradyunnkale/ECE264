@@ -3,6 +3,7 @@
 
 #define ASCII_SIZE 256
 
+#include <stdio.h>
 
 typedef struct TreeNode {
    int label;
