@@ -80,13 +80,10 @@ PersonalityResult analyzeAnswers(const char * answers) {
   int aCount[NUM_DIMENSIONS] = {0};
   int bCount[NUM_DIMENSIONS] = {0};
   countAnswers(answers, aCount, bCount);
-  int i = 0;
-  while (i < NUM_DIMENSIONS) {
+  for (int i = 0; i < NUM_DIMENSIONS; i++) {
     result.percentages[i] = computePercentageB(aCount[i], bCount[i]);
     result.personalityType[i] = determinePersonalityLetter(i, result.percentages[i]);
-    i++;
   }
-  result.personalityType[i + 1] = '\0';
-
+  result.personalityType[NUM_DIMENSIONS] = '\0';
   return result;
 }
